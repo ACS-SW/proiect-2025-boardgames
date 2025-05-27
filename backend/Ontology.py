@@ -1,4 +1,3 @@
-import os
 from rdflib import Graph, Namespace, RDF, RDFS, OWL, Literal, XSD
 
 BG = Namespace("http://example.org/boardgames#")
