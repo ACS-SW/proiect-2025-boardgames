@@ -1,56 +1,140 @@
 <?xml version="1.0" encoding="utf-8"?>
 <rdf:RDF
    xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
 >
+  <rdf:Description rdf:about="http://example.org/boardgames#hasExpansion">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
+    <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">hasExpansion</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://example.org/boardgames#Long">
+    <rdf:type rdf:resource="http://example.org/boardgames#DurationCategory"/>
+    <rdfs:label>Long</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://example.org/boardgames#Easy">
+    <rdf:type rdf:resource="http://example.org/boardgames#ComplexityCategory"/>
+    <rdfs:label>Easy</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://example.org/boardgames#Game">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://example.org/boardgames#Medium">
+    <rdf:type rdf:resource="http://example.org/boardgames#DurationCategory"/>
+    <rdf:type rdf:resource="http://example.org/boardgames#ComplexityCategory"/>
+    <rdfs:label>Medium</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://example.org/boardgames#Party">
+    <rdf:type rdf:resource="http://example.org/boardgames#PlayerCountCategory"/>
+    <rdfs:label>Party</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://example.org/boardgames#hasDomain">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
+    <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">hasDomain</rdfs:label>
+  </rdf:Description>
   <rdf:Description rdf:about="http://example.org/boardgames#minPlayers">
     <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+    <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">minPlayers</rdfs:label>
   </rdf:Description>
-  <rdf:Description rdf:about="http://example.org/boardgames#Complexity">
-    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+  <rdf:Description rdf:about="http://example.org/boardgames#Epic">
+    <rdf:type rdf:resource="http://example.org/boardgames#DurationCategory"/>
+    <rdfs:label>Epic</rdfs:label>
   </rdf:Description>
-  <rdf:Description rdf:about="http://example.org/boardgames#Duration">
-    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+  <rdf:Description rdf:about="http://example.org/boardgames#Short">
+    <rdf:type rdf:resource="http://example.org/boardgames#DurationCategory"/>
+    <rdfs:label>Short</rdfs:label>
   </rdf:Description>
-  <rdf:Description rdf:about="http://example.org/boardgames#Domain">
-    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+  <rdf:Description rdf:about="http://example.org/boardgames#Very_Easy">
+    <rdf:type rdf:resource="http://example.org/boardgames#ComplexityCategory"/>
+    <rdfs:label>Very Easy</rdfs:label>
   </rdf:Description>
   <rdf:Description rdf:about="http://example.org/boardgames#ownedByUsers">
     <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+    <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">ownedByUsers</rdfs:label>
   </rdf:Description>
-  <rdf:Description rdf:about="http://example.org/boardgames#maxPlayers">
-    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+  <rdf:Description rdf:about="http://example.org/boardgames#hasMechanic">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
+    <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">hasMechanic</rdfs:label>
   </rdf:Description>
-  <rdf:Description rdf:about="http://example.org/boardgames#complexityRating">
-    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
-  </rdf:Description>
-  <rdf:Description rdf:about="http://example.org/boardgames#averageRating">
-    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
-  </rdf:Description>
-  <rdf:Description rdf:about="http://example.org/boardgames#publishedYear">
-    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+  <rdf:Description rdf:about="http://example.org/boardgames#hasPlayerCountCategory">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
+    <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">hasPlayerCountCategory</rdfs:label>
   </rdf:Description>
   <rdf:Description rdf:about="http://example.org/boardgames#playTime">
     <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+    <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">playTime</rdfs:label>
   </rdf:Description>
-  <rdf:Description rdf:about="http://example.org/boardgames#PlayerCount">
+  <rdf:Description rdf:about="http://example.org/boardgames#hasDesigner">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
+    <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">hasDesigner</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://example.org/boardgames#complexityRating">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+    <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">complexityRating</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://example.org/boardgames#hasDurationCategory">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
+    <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">hasDurationCategory</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://example.org/boardgames#Solo">
+    <rdf:type rdf:resource="http://example.org/boardgames#PlayerCountCategory"/>
+    <rdfs:label>Solo</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://example.org/boardgames#maxPlayers">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+    <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">maxPlayers</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://example.org/boardgames#averageRating">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+    <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">averageRating</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://example.org/boardgames#ratedByUsers">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+    <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">ratedByUsers</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://example.org/boardgames#recommendedAge">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+    <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">recommendedAge</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://example.org/boardgames#PlayerCountCategory">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://example.org/boardgames#hasComplexityCategory">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
+    <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">hasComplexityCategory</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://example.org/boardgames#publishedYear">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+    <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">publishedYear</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://example.org/boardgames#Designer">
     <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
   </rdf:Description>
   <rdf:Description rdf:about="http://example.org/boardgames#Mechanic">
     <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
   </rdf:Description>
-  <rdf:Description rdf:about="http://example.org/boardgames#Game">
+  <rdf:Description rdf:about="http://example.org/boardgames#ComplexityCategory">
     <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
   </rdf:Description>
-  <rdf:Description rdf:about="http://example.org/boardgames#ratedByUsers">
-    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+  <rdf:Description rdf:about="http://example.org/boardgames#Hard">
+    <rdf:type rdf:resource="http://example.org/boardgames#ComplexityCategory"/>
+    <rdfs:label>Hard</rdfs:label>
   </rdf:Description>
-  <rdf:Description rdf:about="http://example.org/boardgames#hasDomain">
+  <rdf:Description rdf:about="http://example.org/boardgames#Couple">
+    <rdf:type rdf:resource="http://example.org/boardgames#PlayerCountCategory"/>
+    <rdfs:label>Couple</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://example.org/boardgames#isExpansionOf">
     <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
+    <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">isExpansionOf</rdfs:label>
   </rdf:Description>
-  <rdf:Description rdf:about="http://example.org/boardgames#hasMechanic">
-    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
+  <rdf:Description rdf:about="http://example.org/boardgames#DurationCategory">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
   </rdf:Description>
-  <rdf:Description rdf:about="http://example.org/boardgames#recommendedAge">
-    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+  <rdf:Description rdf:about="http://example.org/boardgames#Group">
+    <rdf:type rdf:resource="http://example.org/boardgames#PlayerCountCategory"/>
+    <rdfs:label>Group</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://example.org/boardgames#Domain">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
   </rdf:Description>
 </rdf:RDF>

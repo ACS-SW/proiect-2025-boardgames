@@ -1,51 +1,119 @@
-import pandas as pd
-from rdflib import Graph, Namespace, RDF, Literal, XSD, URIRef, RDFS
+import json
+from rdflib import Graph, Namespace, RDF, RDFS, Literal, XSD
 
-# Încărcare structură ontologie existentă
 g = Graph()
-g.parse("data/boardgame_ontology.owl", format="xml")
+g.parse("../onto/boardgame_ontology.owl", format="xml")
 
 BG = Namespace("http://example.org/boardgames#")
 
-# Citire dataset
-df = pd.read_csv("../data/BGG_Data_Set.csv", encoding="latin1")
+def normalize_uri(value):
+    import re
+    return re.sub(r'\W+', '_', value.strip())
 
-for idx, row in df.iterrows():
-    game_uri = BG[f'Game_{row["ID"]}']
+with open("../data/combined_boardgames.json", encoding="utf-8") as f:
+    games = json.load(f)
 
-    # Adăugare individ joc
+def classify_playercount(min_players):
+    if int(min_players) == 1:
+        return "Solo"
+    elif int(min_players) == 2:
+        return "Couple"
+    elif 3 <= int(min_players) <= 5:
+        return "Group"
+    elif int(min_players) >= 6:
+        return "Party"
+    return None
+
+def classify_duration(time):
+    if int(time) <= 30:
+        return "Short"
+    elif 31 <= int(time) <= 90:
+        return "Medium"
+    elif 91 <= int(time) <= 180:
+        return "Long"
+    elif int(time) > 180:
+        return "Epic"
+    return None
+
+def classify_complexity(value):
+    if float(value) <= 1.5:
+        return "Very_Easy"
+    elif 1.5 < float(value) <= 2.5:
+        return "Easy"
+    elif 2.5 < float(value) <= 3.5:
+        return "Medium"
+    elif float(value) > 3.5:
+        return "Hard"
+    return None
+
+for game in games:
+    game_uri = BG[f'Game_{game["id"]}']
     g.add((game_uri, RDF.type, BG.Game))
-    g.add((game_uri, RDFS.label, Literal(row["Name"], datatype=XSD.string)))
+    g.add((game_uri, RDFS.label, Literal(game["title"], datatype=XSD.string)))
 
-    # Proprietăți simple
-    g.add((game_uri, BG.publishedYear, Literal(row["Year Published"], datatype=XSD.gYear)))
-    g.add((game_uri, BG.minPlayers, Literal(row["Min Players"], datatype=XSD.integer)))
-    g.add((game_uri, BG.maxPlayers, Literal(row["Max Players"], datatype=XSD.integer)))
-    g.add((game_uri, BG.playTime, Literal(row["Play Time"], datatype=XSD.integer)))
-    g.add((game_uri, BG.recommendedAge, Literal(row["Min Age"], datatype=XSD.integer)))
-    g.add((game_uri, BG.averageRating, Literal(row["Rating Average"], datatype=XSD.float)))
-    g.add((game_uri, BG.complexityRating, Literal(row["Complexity Average"], datatype=XSD.float)))
-    g.add((game_uri, BG.ownedByUsers, Literal(row["Owned Users"], datatype=XSD.integer)))
-    g.add((game_uri, BG.ratedByUsers, Literal(row["Users Rated"], datatype=XSD.integer)))
+    year_raw = game.get("year", "")
+    year_int = int(year_raw)
+    if 1000 <= year_int <= 9999:
+        year_str = f"{year_int:04d}"
+        g.add((game_uri, BG.publishedYear, Literal(year_str, datatype=XSD.gYear)))
+    if game["minplayers"]:
+        g.add((game_uri, BG.minPlayers, Literal(int(game["minplayers"]), datatype=XSD.integer)))
+    if game["maxplayers"]:
+        g.add((game_uri, BG.maxPlayers, Literal(int(game["maxplayers"]), datatype=XSD.integer)))
+    if game["playingtime"]:
+        g.add((game_uri, BG.playTime, Literal(int(game["playingtime"]), datatype=XSD.integer)))
+    if game["minage"]:
+        g.add((game_uri, BG.recommendedAge, Literal(int(game["minage"]), datatype=XSD.integer)))
+    if game["avg_rating"]:
+        g.add((game_uri, BG.averageRating, Literal(float(game["avg_rating"]), datatype=XSD.float)))
+    if game["weight"]:
+        g.add((game_uri, BG.complexityRating, Literal(float(game["weight"]), datatype=XSD.float)))
 
-    # Proprietăți multiple (Mechanics și Domains)
-    if isinstance(row["Mechanics"], str):
-        mechanics = row["Mechanics"].split(",")
-        for mech in mechanics:
-            mech_name = mech.strip().replace(" ", "_").replace("/", "_").replace("-", "_")
-            mech_uri = BG[f'Mechanic_{mech_name}']
-            g.add((mech_uri, RDF.type, BG.Mechanic))
-            g.add((mech_uri, RDFS.label, Literal(mech.strip(), datatype=XSD.string)))
-            g.add((game_uri, BG.hasMechanic, mech_uri))
+    for mech in set(game.get("mechanics", [])):
+        mech_name = normalize_uri(mech)
+        mech_uri = BG[f'Mechanic_{mech_name}']
+        g.add((mech_uri, RDF.type, BG.Mechanic))
+        g.add((mech_uri, RDFS.label, Literal(mech.strip(), datatype=XSD.string)))
+        g.add((game_uri, BG.hasMechanic, mech_uri))
 
-    if isinstance(row["Domains"], str):
-        domains = row["Domains"].split(",")
-        for domain in domains:
-            domain_name = domain.strip().replace(" ", "_").replace("/", "_").replace("-", "_")
-            domain_uri = BG[f'Domain_{domain_name}']
-            g.add((domain_uri, RDF.type, BG.Domain))
-            g.add((domain_uri, RDFS.label, Literal(domain.strip(), datatype=XSD.string)))
-            g.add((game_uri, BG.hasDomain, domain_uri))
+    for domain in set(game.get("categories", [])):
+        domain_name = normalize_uri(domain)
+        domain_uri = BG[f'Domain_{domain_name}']
+        g.add((domain_uri, RDF.type, BG.Domain))
+        g.add((domain_uri, RDFS.label, Literal(domain.strip(), datatype=XSD.string)))
+        g.add((game_uri, BG.hasDomain, domain_uri))
 
-# Salvare ontologie populată
-g.serialize("data/boardgame_ontology_populated.owl", format="xml")
+    for designer in set(game.get("designers", [])):
+        designer_name = normalize_uri(designer)
+        designer_uri = BG[f"Designer_{designer_name}"]
+        g.add((designer_uri, RDF.type, BG.Designer))
+        g.add((designer_uri, RDFS.label, Literal(designer, datatype=XSD.string)))
+        g.add((game_uri, BG.hasDesigner, designer_uri))
+
+    for exp in game.get("has_expansions", []):
+        if isinstance(exp, dict) and 'id' in exp and 'title' in exp:
+            exp_uri = BG[f"Game_{exp['id']}"]
+            g.add((game_uri, BG.hasExpansion, exp_uri))
+            g.add((exp_uri, RDF.type, BG.Game))
+            g.add((exp_uri, RDFS.label, Literal(exp["title"], datatype=XSD.string)))
+
+    for expanded_game in game.get("expands", []):
+        if isinstance(expanded_game, dict) and 'id' in expanded_game:
+            expanded_uri = BG[f"Game_{expanded_game['id']}"]
+            g.add((game_uri, BG.isExpansionOf, expanded_uri))
+
+    pcat = classify_playercount(game.get("minplayers", 0))
+    if pcat:
+        g.add((game_uri, BG.hasPlayerCountCategory, BG[pcat]))
+
+    dcat = classify_duration(game.get("playingtime", 0))
+    if dcat:
+        g.add((game_uri, BG.hasDurationCategory, BG[dcat]))
+
+    ccat = classify_complexity(game.get("weight", 0))
+    if ccat:
+        g.add((game_uri, BG.hasComplexityCategory, BG[ccat]))
+
+output_path = "../onto/boardgame_ontology_populated_json.owl"
+print(len(g))
+g.serialize(output_path, format="xml")
